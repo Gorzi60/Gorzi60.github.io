@@ -1,0 +1,154 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    
+ }
+body {
+    background-color: rgb(100, 105, 126);
+    background-size: cover;
+
+}
+.wrapper {
+    width: 100%;
+    margin: 0;
+    padding:0;
+}
+.content .row {
+    display: flex; 
+    flex-wrap: wrap;
+   /* align-items: stretch;*/
+   
+}
+.fejlec {
+    background: url(../img/fejlecFoto.jpg);
+    background-size: cover;
+    width:100%;
+    height: 100px;
+    position: sticky; /* hogy a felső menü mindig látszódjon - a top:0; is kell! */
+    top: 0;
+}
+.menusav a:hover {
+    background: darkgray;
+    color: yellow;
+    padding: 12px 20px;
+    
+}
+.menusav a {
+   text-decoration: none;
+   text-transform: uppercase;
+   color: white;
+   padding: 20px 20px;
+   margin-top: 40px;
+}    
+.menusav {
+    padding: 40px 30px;
+    margin: 0;    
+}
+   
+.balOldalMenu {
+    background-color: rgb(218, 152, 105);
+    flex-basis: 15%;
+    margin: 0;
+    padding: 0;
+}
+.balOldalMenu ul li {
+    list-style-type: none;
+    margin: 30px 20px;
+}
+.balOldalMenu ul li a {
+    color: black;
+    text-decoration: none;
+    padding-left: 40px;
+    font-weight: bold;
+}
+.balOldalMenu ul li a:hover {
+    background: gray;
+    color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    padding: 10px 40px;
+} 
+ 
+#menuCim {
+    text-decoration: underline;
+    padding-left: 40px;
+    font-weight:bold;
+    font-style: italic;
+}
+
+.centerTest {
+    flex-basis: 68%;
+    background-color: rgb(77, 69, 63);
+    margin: 0;
+    padding:0;
+    text-align: center;
+}
+#beszurtFoto {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    float: right;
+    margin: 20px 20px;
+}
+.jobbOldalSav {
+    background: rgb(218, 152, 105);
+    flex-basis: 17%;
+    margin: 0;    
+}
+.jobbBox {
+    border: 3px outset gray;
+    padding: 3px 3px;
+    margin: 30px 15px;   
+}
+.lablec {
+    width: 100%;
+    height: 100px;
+    background: rgb(24, 3, 3);     
+}
+  
+p {
+    text-align: justify;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    color: white;
+    margin: 30px 30px;
+    
+}
+h5 {
+    font-style: bold;
+    color: rgb(228, 240, 126);
+    text-transform: uppercase;
+    padding: 20px 20px;
+}
+/* Lenyíló menü - egérmutataóra */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7f8aeb;
+    min-width: 120px;
+    box-shadow: 5px 5px 10px 10px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-top: 12px;
+  }
+  .dropdown-content a {
+    color: white;
+    padding: 5px 5px;
+    text-decoration: none;
+    text-transform: none;
+    margin: 10px 5px;
+    display: block;
+  }
+  .dropdown-content a:hover {
+      background-color: rgb(43, 123, 177);
+      margin: 10px 5px;
+      padding: 5px 5px;
+    }
+  .dropdown:hover .dropdown-content {display: block;} 
+  

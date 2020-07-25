@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/databev.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Adatbeviteli mezők</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="fejlec">
+            <nav class="menusav">
+              <a href="Main.html">Főoldal</a>
+              <a href="Cars.html">Autók</a>
+              <a href="Table.html">Táblázat</a>
+              <a href="DataBev.html">Adatbevitel</a>
+            </nav>
+        </div>  
+         <h3 style="text-align:center; font-style:bold; margin-top: 30px;">ADATBEVITELI FORMÁK</h3>
+        <div class="container">
+            <div class="row">           
+            <form>
+               <div class="d-flex justify-content-around">
+               <div class="balOldal">
+                  <div class="form-group">
+                    <h5 style="text-align: center;">ADATOK MEGADÁSA</h5>
+                     
+                    <label for="nev">Vezetéknév:*</label>
+                     <input class="form-control" type="text" name="nev" autofocus required>
+                    <label for="knev">Keresztnév:*</label>
+                     <input class="form-control" type="text" name="knev" required>
+                                      
+                    <label for="lakik">Lakóhely (város):</label>
+                    <input class="form-control" type="text" name="lakik">
+                    <label for="kor">Életkor:</label>
+                    <input class="form-control" type="text" name="kor">
+                    <label for="tel">Telefon:</label>
+                    <input class="form-control" type="tel" name="tel" placeholder="Minta: 06-1-234-5678">
+                    <label for="file">Csatolandó file-ok:</label>
+                    <input type="file" name="file" multiple>
+                  </div>
+                  <br>
+                  <div class="form-group">
+                      <button class="btn btn-primary">Jóváhagy</button>
+                      <button class="btn btn-success">Elküld</button>
+                      <button class="btn btn-danger">Kilépés</button>
+                  </div>
+               </div> 
+               <div class="kozepResz">
+                    <div class="form-group">
+                       <fieldset>
+                           <legend style="text-decoration:underline;"> Több termék kiválasztása </legend>
+                           <br>
+                         <div class="checkGombok">
+                           <div>
+                               <label for="termek1">Kalapács___</label>
+                               <input type="checkbox" name="termek1" value="10">
+                           </div>
+                           <div>
+                               <label for="termek2">Csavarhúzó</label>
+                               <input type="checkbox" name="termek2" value="20" checked>
+                           </div>
+                           <div>
+                               <label for="termek3">Lombfűrész</label>
+                               <input type="checkbox" name="termek3" value="50" checked>
+                           </div>
+                           <div>
+                               <label for="termek4">Ütvefúró___</label>
+                               <input type="checkbox" name="termek4" value="10">
+                           </div>
+                           <div class="form-check">
+                            <label class="form-check-label" for="check1">
+                              <input type="checkbox" class="form-check-input" name="option2" id="check1" value="33">Új termék 1
+                            </label>
+                          </div>
+                           <div class="form-check">
+                            <label class="form-check-label" for="check2">
+                              <input type="checkbox" class="form-check-input" name="option2" id="check2" value="33">Új termék 2
+                            </label>
+                          </div>
+                         </div>
+                       </fieldset>
+                       <br>
+                       <fieldset>
+                           <legend style="text-decoration:underline;"> Egyik tárgy kiválasztása </legend>
+                           <br>
+                           <div>
+                               <label for="targy">Kalap_.</label>
+                               <input type="radio" name="targy" value="10">
+                           </div>
+                           <div>
+                               <label for="targy">Csizma</label>
+                               <input type="radio" name="targy" value="20">
+                           </div>
+                           <div>
+                               <label for="targy">Kabát_</label>
+                               <input type="radio" name="targy" value="50">
+                           </div>
+                           <div>
+                               <label for="targy">Öltöny</label>
+                               <input type="radio" name="targy" value="10" checked>
+                           </div>
+                           <div class="form-check disabled">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="targy">Új ruha 1
+                            </label>
+                           </div>
+                           <div class="form-check disabled">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="targy">Új ruha 2
+                            </label>
+                          </div>
+                       </fieldset>
+                    </div>                    
+               </div>
+               <div class="jobbOldal">
+                     <h5 style="text-decoration:underline;">Bejelentkezés demo</h5>
+                     <br>
+                     <div class="form-group">
+                           <label for="emailCim">E-mail cím megadása:</label>
+                        <input class="form-control" type="emal" name="emailCim" value="akarki.dezso@gmail.com" readonly>
+                      </div>
+                      <div class="form-group">
+                           <label for="pw">Password megadása:</label>
+                        <input class="form-control" type="password" name="pw" minlength="7" required>
+                      </div>
+                      <div class="form-group">
+                        <button class="btn btn-success">Elküld</button>
+                        <button class="btn btn-primary">Mégsem</button>
+                      </div>
+                </div>    
+              </div>
+            </form>   
+          </div> 
+        </div>
+
+    </div>
+</body>
+</html>

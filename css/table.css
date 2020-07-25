@@ -1,0 +1,94 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    
+ }
+body {
+    background: url("../img/Feroer.jpg") fixed;
+    background-size: cover;
+}
+.wrapper {
+   max-width: 1000px;
+   max-height: 820px;
+   margin: 25px auto 30px;
+   background-color: rgb(21, 218, 119, 0.5);
+   padding-bottom: 50px;
+}
+.fejlec {
+    background: url(../img/fejlecFoto.jpg);
+    background-size: cover;
+    width:100%;
+    height: 80px;
+    position: sticky; /* hogy a felső menü mindig látszódjon - a top:0; is kell! */
+    top: 0;
+}
+.menusav a:hover {
+    background: darkgray;
+    color: yellow;
+    padding: 12px 20px;
+    
+}
+.menusav a {
+   text-decoration: none;
+   text-transform: uppercase;
+   color: white;
+   padding: 20px 20px;
+   margin-top: 40px;
+}    
+.menusav {
+    padding: 30px 30px;
+    margin: 0;    
+}
+
+.tabletta {
+    border: solid 2px;
+    margin: 0 auto;
+    table-layout: auto;
+    width: 100%;  
+    
+}
+/*.tablet {
+   height:600px; 
+   overflow: scroll;           /* hogy görgetősávot rakjon fel, ha a sorok nem férnek el a képernyőn 
+} */
+/*#headerTable {
+    position: fixed;
+   
+} */
+.fejlecFelirat {
+    padding: 10px 0;
+}
+h1{
+    text-align: center;
+    font-family: "Roboto", sans-serif;    /* idézőjelbe kell rakni a külső font nevét! */
+    font-weight: 400;
+    font-style: italic;
+}
+
+#lablec {
+    text-align: center;
+    color: white;
+    font-style: italic;
+    
+}
+.tablet tr:hover {background-color:#f5f5f5;}
+
+.tabletta thead tr th {
+    padding: 10px 20px;
+    border: 1px solid #353333;
+} 
+.tablet tr td {
+    padding: 10px 20px;
+    border: 1px solid #353333;
+}
+tr:nth-child(odd) {
+    background-color:  rgb(88, 144, 146);
+  }
+tr:nth-child(even) {
+    background-color:  rgb(115, 188, 190);
+  }
+.tabletta thead tr {
+    background-color:  rgb(63, 116, 119);
+  }
