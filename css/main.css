@@ -49,18 +49,18 @@ body {
    
 .balOldalMenu {
     background-color: rgb(218, 152, 105);
-    flex-basis: 15%;
-    margin: 0;
+    flex-basis: 16%;
     padding: 0;
+    margin: 0; 
 }
 .balOldalMenu ul li {
     list-style-type: none;
-    margin: 30px 20px;
+    margin: 30px 20px 20px 5px;
 }
 .balOldalMenu ul li a {
     color: black;
     text-decoration: none;
-    padding-left: 40px;
+    padding-left: 30px;
     font-weight: bold;
 }
 .balOldalMenu ul li a:hover {
@@ -68,18 +68,18 @@ body {
     color: white;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
-    padding: 10px 40px;
+    padding: 10px 30px;
 } 
  
 #menuCim {
     text-decoration: underline;
-    padding-left: 40px;
+    padding-left: 30px;
     font-weight:bold;
     font-style: italic;
 }
 
 .centerTest {
-    flex-basis: 68%;
+    flex-basis: 60%;
     background-color: rgb(77, 69, 63);
     margin: 0;
     padding:0;
@@ -94,7 +94,7 @@ body {
 }
 .jobbOldalSav {
     background: rgb(218, 152, 105);
-    flex-basis: 17%;
+    flex-basis: 12%;
     margin: 0;    
 }
 .jobbBox {
@@ -118,7 +118,7 @@ p {
     
 }
 h5 {
-    font-style: bold;
+    font-weight: bold;
     color: rgb(228, 240, 126);
     text-transform: uppercase;
     padding: 20px 20px;
