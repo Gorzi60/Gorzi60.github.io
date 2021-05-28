@@ -1,0 +1,502 @@
+/**  Mozifilmek oldalról (www.omdbapi.com) film-infók lekérése - stílus file ***/
+/*******************************************************************************/
+
+* {
+    box-sizing: border-box;
+}
+:root {
+    --elemWidth : 17vw;                        /* filmCard elem szélessége */
+}
+body {
+   background: rgb(53, 52, 52);
+   font-family: "Lucida Sans", sans-serif;
+}
+.wrapper {
+    max-width: 1200px;    
+    padding: 0;
+    margin: 0 auto;
+    background: rgb(119, 117, 117);
+    position: relative;
+}
+
+/*******************************/
+/* Kereséshez adatbekérő FORM  */
+/*******************************/
+#fejCim {
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    font-weight: bold;
+    text-shadow: 0.15rem 0.15rem 0.6rem rgb(2, 4, 34);
+}
+.fejlecDiv {
+    min-height: 14rem;    
+    margin: 0 auto;
+    background: rgba(143, 167, 179, 0.9);
+    /* opacity: 0.92;    */
+    /* z-index: 1000; */
+} 
+
+#formSearch {
+    background: rgb(230, 221, 123);
+    border: 0.06rem solid black;
+    padding: 1rem;
+    color: black;
+    width: 40vw;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 1rem;
+    box-shadow: 0.3rem 0.3rem 0.6rem;
+}
+    #formSearch label {
+        padding-top: 0.5rem;
+        margin-right: 0.6rem;
+        font-size: 0.92rem;
+    }
+        #formSearch label:first-of-type input {
+            width: 15rem;
+        }
+        #formSearch label:last-of-type input {
+            width: 4rem;
+        }
+
+        #formSearch label input {
+            background: white;
+            color: black;
+            outline: 0.01rem solid rgb(192, 189, 189); 
+            margin-right: 2em;
+            font-size: 0.92rem;
+        }
+            #formSearch label input:focus {
+                background: rgb(233, 216, 186);
+                outline: 0.15rem solid rgb(221, 157, 104);   
+            }
+
+    #formSearch button {
+        padding: 0.3rem 2rem;
+        background: rgb(240, 190, 96);
+        color: brown;
+        border: 0.05rem solid brown;
+        border-radius: 0.4rem;
+        margin-left: 1rem;
+        margin-top: 1.3rem;
+    }
+        #formSearch button:hover {
+            background: rgb(206, 159, 58);
+            color: yellow;
+        }
+  
+/***************************/
+/* filmek/plakátok listája */
+/***************************/
+
+.filmLista {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly; 
+    align-items: stretch;
+    padding: 0;
+    margin: 0;
+    list-style-type:none;
+} 
+.filmElemTabla {
+    flex-basis : var(--elemWidth);                /* >1200px: 17vw */
+}
+.filmCard {
+    position : relative; 
+    padding: 0.5rem;
+    margin:0.3rem;
+    background: rgb(143, 141, 141);
+    border: 0.3rem outset rgb(153, 149, 149);
+    height: calc(var(--elemWidth) * 1.9);     
+    max-width: var(--elemWidth);
+    font-size: 1rem;
+}
+
+.moviePoster {
+    width: 100%; 
+}
+.egyFilmLeiras {
+   padding-top: 0.5rem;
+}
+.clearfix::after {
+    display: table;
+    clear: both;
+    content : ""
+}
+.movieTitle {
+    max-width: calc(var(--elemWidth - 1rem));
+    font-weight: bold;
+}
+.movieYear {
+    float: left;
+    color:darkblue;
+}
+.alsoResz {
+    position : absolute; 
+    width: 94%;
+    bottom: 0;
+} 
+    .alsoResz input {
+        float: right;
+        background : rgb(190, 190, 135);
+        color: darkblue;
+        padding: 0.2rem;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+        box-shadow: 0.1rem 0.1rem 0.3rem black;
+        font-size:0.9rem;
+        max-width: 6rem;   
+    }
+        .alsoResz input:hover {
+            background : rgb(216, 216, 112);  
+            transform: scale(1.06);   
+        }
+
+/*****************************/
+/* filmrészlet megjelenítése */
+/*****************************/
+.filmLeiras {
+    display: none;
+    position: fixed;
+    top: calc((100% - 45vh) / 2);
+    left: calc((100% - 45vw) / 2);
+    width: 45vw;
+    height: 45vh;
+    background: rgb(165, 169, 212);
+    padding: 10px;
+    border: 2px double rgb(14, 91, 97);
+    box-shadow: 3px 3px 10px black;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;   
+}
+
+.leirasCloseBtn {
+    padding: 0.1rem 0.2rem;
+    float: right;
+    font-weight: bold;
+    border: 0.01rem solid rgb(68, 66, 66);
+    border-radius: 15%;
+}
+    .leirasCloseBtn:hover {
+        background: rgb(133, 139, 201);
+        cursor: pointer;
+    }
+
+.infoBox {
+    padding: 0.5rem;
+}
+
+    .infoBox div {
+        padding-bottom: 1rem;
+    }
+
+    .infoBox p > span {       /*}:not(:nth-of-type(1)) {*/
+        font-style:italic;
+        line-height: 1.5rem;
+        font-size: 1rem;
+        font-family: Tahoma, sans-serif;
+    }
+
+    .infoBox h5 {
+        font-family: Tahoma, sans-serif;
+        font-weight: bold;
+        padding-bottom: 0.5rem;
+    }
+
+.plotFilm, .actorsFilm {
+    padding-left: 1.2rem;
+    padding-top: 0.1rem;
+    text-align: justify;
+    font-style: italic;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    font-family: Tahoma, sans-serif;
+}
+
+.dispBox {
+    display: block;
+}
+
+/************/
+/* Lábléc   */
+/************/
+.lablec {
+    min-height: 3rem;
+    text-align: center;
+    line-height: 3rem;
+    width: 100%;
+    color: lightgray;
+    background: rgb(14, 14, 14);      
+}
+    .lablec > p {
+        margin: 0 auto;
+    }
+
+
+/***********/
+/* LAPOZÁS */
+/***********/
+.lapozas {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin-top: 2rem;
+}
+    .lapozas .page,
+    .lapozas .prevPage,
+    .lapozas .nextPage {
+        display: inline-block;
+        padding: 0.3rem 0.4rem;
+        background: #fff;
+        border: 0.08rem solid rgba(0,0,0,0.2);
+        margin: 0 0.4rem 1rem 0;
+        text-decoration: none;  
+    }
+
+        .lapozas .page:visited {
+            background:white;
+            color:grey;
+        }
+
+        .lapozas .page:hover {
+            background: rgb(170, 170, 231);
+            color: #fff
+        }
+
+    .lapozas .prevPage,
+    .lapozas .nextPage {
+        background: rgb(161, 233, 233);
+        border-radius: .4rem;
+    }
+
+        .lapozas .prevPage:hover,
+        .lapozas .nextPage:hover {
+            background: rgb(40, 116, 116);
+            color: #fff
+        }
+
+    /*--- aktuális lap megjelölése ------*/        
+    .megjelolPage,
+    .lapozas .page:focus {
+        background:rgb(94, 94, 231);
+        color:white;
+    }
+
+    /* .lapozas .page:hover:not(.megjelolPage) {
+        background: rgb(170, 170, 231);
+        color: #fff
+    }     */
+
+
+/* Aktuális lapszám kiírása a pagination alá */
+.pageNumbers {
+    display: flex;
+    justify-content: center;
+}            
+    .pageNumbers p {
+        margin: 0 auto 1rem;
+        font-style: italic;
+        color: darkblue;
+    }
+
+/* Egyeb */
+
+.elrejtes {display: none}
+
+.uresResz {
+    height: calc(100vh - 17rem);
+}
+
+
+/****************
+  MEDIA QUERIES                       prg (>=1200px)  XL - desktop   
+ ****************/                  
+                                    
+ @media (max-width: 575px) {        /* XS - mini mobile (pl. Iphone 5S) */
+    :root {
+        --elemWidth : 80vw; 
+    }
+    .filmCard {
+    height: calc(var(--elemWidth) * 1.75);     
+    }
+
+    /* részletes filmleíráshoz  */
+    .filmLeiras {                     
+        top: calc((100% - 60vh) / 2);
+        left: calc((100% - 85vw) / 2);
+        height: 60vh;
+        width: 85vw;    
+    }   
+    .infoBox p span {        
+       font-style:italic;
+       line-height: 1.4rem;       
+    }
+    .fejlecDiv {
+        padding-bottom: 1rem;
+    }
+    .uresResz {
+        height: calc(100vh - 24.2rem);
+    }
+
+    .plotFilm, .actorsFilm {
+       padding-left: 0.5rem;       
+       line-height: 1.4rem;
+    }
+
+    /* kereső mezők  */
+    #formSearch {                   
+        width: 17rem;
+        display: block;
+    }
+        #formSearch label input {
+            margin-bottom: 0;
+        }
+        #formSearch button {
+            width: 13rem;    
+        }
+ }
+ 
+ @media (min-width: 576px) and (max-width: 767px) {          /* SM - smart mobile */
+    :root {
+        --elemWidth : 43vw; 
+    }
+    .movieTitle {
+        font-size: 0.9rem;
+    }
+    .filmLeiras {                       
+        top: calc((100% - 50vh) / 2);
+        left: calc((100% - 80vw) / 2);
+        height: 50vh;
+        width: 80vw;    
+    } 
+    .infoBox p span {        
+       font-style:italic;
+       line-height: 1.4rem;       
+    }
+    .fejlecDiv {
+        padding-bottom: 1rem;
+    }
+    .uresResz {
+        height: calc(100vh - 24.2rem);
+    }
+
+    .plotFilm, .actorsFilm {
+       padding-left: 0.5rem;       
+       line-height: 1.4rem;
+    }
+
+    /* kereső mezők  */
+    #formSearch {                   
+        width: 17rem;
+        display: block;
+    }
+        #formSearch label input {
+            margin-bottom: 0;
+        }
+        #formSearch button {
+            width: 13rem;
+        }
+ }
+
+ @media (min-width: 768px) and (max-width: 991px) {         /* MD - tablet */
+    :root {
+        --elemWidth : 30vw; 
+    }
+    .movieTitle {  
+        font-size: 0.9rem;
+    }
+    .filmLeiras {                       
+        top: calc((100% - 50vh) / 2);
+        left: calc((100% - 70vw) / 2);
+        height: 50vh;
+        width: 70vw;    
+    } 
+    .infoBox p span {        
+       font-style:italic;
+       line-height: 1.4rem;       
+    }
+    .plotFilm, .actorsFilm {
+       padding-left: 0.5rem;       
+       line-height: 1.4rem;
+    }
+
+    #formSearch {                   
+        display: flex;
+        width: 70vw;
+    }
+ }
+
+ @media (min-width: 992px) and (max-width: 1192px) {          /* LG - mini laptop */
+    :root {
+        --elemWidth : 30vw; 
+    }
+    .filmCard {
+        height: calc(var(--elemWidth) * 1.83);     
+    }
+    .filmLeiras {                       
+        top: calc((100% - 45vh) / 2);
+        left: calc((100% - 65vw) / 2);
+        height: 45vh;
+        width: 65vw;    
+    } 
+    .infoBox p span {        
+       font-style:italic;
+       line-height: 1.4rem;       
+    }
+    .plotFilm, .actorsFilm {
+       padding-left: 0.5rem;       
+       line-height: 1.4rem;
+    }
+
+    #formSearch {                   
+        display: flex;
+        width: 60vw;
+    }
+        #formSearch label input {
+            margin-right: 2em;
+        }
+ }
+
+ @media (min-width: 1193px) and (max-width: 1410px) {        /* ez csak muszájból! */
+    :root {
+        --elemWidth : 25vw; 
+    }
+    .filmElemTabla {
+        flex-basis : 20vw;
+        min-width : 20vw;
+    }
+    .filmCard {
+        height: calc(var(--elemWidth) * 1.6);     
+    }
+    .movieTitle {  
+        font-size: 0.9rem;
+    }
+    .filmLeiras {                       
+        top: calc((100% - 45vh) / 2);
+        left: calc((100% - 60vw) / 2);
+        height: 45vh;
+        width: 60vw;    
+    } 
+    .infoBox p span {        
+       font-style:italic;
+       line-height: 1.4rem;       
+    }
+    .plotFilm, .actorsFilm {
+       padding-left: 0.5rem;       
+       line-height: 1.4rem;
+    }
+
+    #formSearch {                   
+        display: flex;
+        width: 50vw;
+    }
+}
+
+/* ez csak próba volt */
+@media (orientation: landscape) {
+    body {
+        background: rgb(66, 65, 68);
+    }
+}
