@@ -302,11 +302,15 @@ body {
     }
 
 /* Egyeb */
-
+/*-------*/
 .elrejtes {display: none}
 
 .uresResz {
     height: calc(100vh - 17rem);
+}
+/* ha csak egy sor filmcard jelenik meg a láblécet alólra nyomja (.6rem a card marginja) */
+.uresResz2 {
+    height: calc( 100vh - 17rem - calc(var(--elemWidth) * 1.9) - .6rem );
 }
 
 

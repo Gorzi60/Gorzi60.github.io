@@ -31,10 +31,18 @@ keresoForm.addEventListener('submit', function(event) {
      if ( startLap || ((searchWord!=sWord) || (searchYear!=sYear)) ) {   
         searchWord = sWord;
         searchYear = sYear;
-        filmekSzama(searchWord, searchYear);             // filmek számának kiszámítása
+        if (searchWord.length < 3) {     
+             alertSK('A kereséshez a film címéhez legaláb 3 betű beírása szükséges!',"white","#3366ff");
+             return false;
+        } else if ((searchYear.length == 0) || (searchYear.length == 4)  ) {
+             filmekSzama(searchWord, searchYear);         // filmek számának kiszámítása        
+             aktPage = "1";
+             filmsLoading(aktPage);                       // filmcard-ok letöltése, megjelenítése
+        } else {
+            alertSK('A kereséskor az évnek vagy üresnek, vagy 4 jegyűnek kell lennie!',"white","#3366ff");
+            return false;
+        }        
      }
-     aktPage = "1";
-     filmsLoading(aktPage);  
 });
 
 // a keresésnek megfelelő oldal (max. 10 db film adattal) letöltése
@@ -42,27 +50,21 @@ keresoForm.addEventListener('submit', function(event) {
 async function filmsLoading(actualPage) {
     let url = `http://www.omdbapi.com/?s=${encodeURI(searchWord)}&y=${searchYear}&page=${actualPage}&apiKey=9606ae0f`;
     
-    if (searchWord.length<3) {      
-        alertSK('A kereséshez a film címéhez legaláb 3 betű beírása szükséges!',"white","#3366ff");
-    } else {
-        loadingShow(true,"yellow");                 // betöltés folyamatban jelzés megjelenítése
-        
+        loadingShow(true,"yellow");                     // betöltés folyamatban jelzés megjelenítése        
          let responsFilm = await fetch(url);
          if (responsFilm.ok) {
             let movieList = await responsFilm.json(); 
-            if (movieList.Search) {                  // az adatállomány ilyen nevű tömbben van
-               loadingShow(false);                   // betöltés folyamatban jelzés eltüntetése
+            if (movieList.Search) {                     // az adatállomány ilyen nevű tömbben van
+               loadingShow(false);                      // betöltés folyamatban jelzés eltüntetése
                // filmek megjelenítése
                filmekMegjelenitese(movieList.Search);   
             } else {
                 alertSK("Sikertelen a keresés, próbálja meg újra!");
-                loadingShow(false);
             } 
          } else {
              alertSK("Sikertelen a keresés ...");
-             loadingShow(false); 
          }
-    }
+        loadingShow(false);        
 }
 
 // filmek megjelenítéséhez html-elemek összeállítása
@@ -128,6 +130,9 @@ function filmDetailsTemplateMaker(infoFilm) {
 function filmekMegjelenitese(moziFilmek) {
     if (startLap) {  
        uresReszHelye.classList.remove("uresResz");  // lábléc feletti üres terület eltörlése
+       if (talalatOsszesen < 5) {
+           uresReszHelye.classList.add("uresResz2");
+       } 
        startLap = false;                            // csak az első lista megjelenítése előtt kell
     }
 
@@ -148,7 +153,7 @@ async function filmDetailShow(aktID) {
     let respFilm = await fetch(url);
     if (respFilm.ok) {
         let infoFilm = await respFilm.json();
-        if (infoFilm) {  
+        if (infoFilm.Response == "True") {  
             // összeállított html-tartalom megjelenítése a film-részletekről 
             leirElem.innerHTML = filmDetailsTemplateMaker(infoFilm);
             leirElem.classList.add("dispBox");
@@ -169,26 +174,35 @@ async function filmDetailShow(aktID) {
 //**  a keresési találatok - adott filmek száma
 //***********************************************
 async function filmekSzama(keresettWord, keresettYear) {
-    let kilep = false;  
+    let noBreakOut;  
     let lapSzam = 0;
     let movieDB = 0;
     talalatOsszesen = 0;
     loadingShow(true,"yellow");
     do {  
+        noBreakOut = false;
         lapSzam = lapSzam+1;
         let url = `http://www.omdbapi.com/?s=${encodeURI(keresettWord)}&y=${keresettYear}&page=${lapSzam.toString()}&apiKey=9606ae0f`;
         
         let responsFilm = await fetch(url);
-        let movieList = await responsFilm.json(); 
-        
-        movieDB = movieList.Search.length;
-        if (movieDB < 10) {         
-            kilep = true;
-        }
-        talalatOsszesen = talalatOsszesen + movieDB;                          
-    } while (!kilep);
+        if (responsFilm.ok) {
+            let movieList = await responsFilm.json(); 
+            if (movieList.Response == "True") {
+                movieDB = movieList.Search.length;
+                talalatOsszesen = talalatOsszesen + movieDB;  
+                if (movieDB >= 10) {         
+                    noBreakOut = true;
+                }
+            } else {
+                alertSK("Ez a keresés sikertelen, próbálja meg újra!");
+            } 
+        } else {
+            alertSK("Ez a keresés sikertelen ...");
+        }                
+    } while (noBreakOut);
     
     loadingShow(false); 
+
     sumPage = Math.ceil(talalatOsszesen / 10);        // oldalak száma összesen
     // pagination felhelyezése az oldalra, ha indokolt
     lapozasShow();                                    // egy fülön max. 10 db film megjelenítése
@@ -214,12 +228,12 @@ function lapozasShow() {
 
    //     document.querySelector(".pageNumbers p span").innerHTML = `${aktPage}/${sumPage}`; 
          pagesAddEvents();                     // eseménykezelők hozzárendelése a fülekhez               
+         if (aktPage == "1") {
+             document.querySelector(".lapozas a:first-child").focus();     // első oldal megjelölése kezdetkor
+         }
     } else {
         lapozoSav.classList.add("elrejtes");
         whichPage.classList.add("elrejtes");
-    }
-    if (aktPage == "1") {
-        document.querySelector(".lapozas a:first-child").focus();     // első oldal megjelölése kezdetkor
     }
 }
 
