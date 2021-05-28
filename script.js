@@ -48,7 +48,7 @@ keresoForm.addEventListener('submit', function(event) {
 // a keresésnek megfelelő oldal (max. 10 db film adattal) letöltése
 //*****************************************************************
 async function filmsLoading(actualPage) {
-    let url = `http://www.omdbapi.com/?s=${encodeURI(searchWord)}&y=${searchYear}&page=${actualPage}&apiKey=9606ae0f`;
+    let url = `https://www.omdbapi.com/?s=${encodeURI(searchWord)}&y=${searchYear}&page=${actualPage}&apiKey=9606ae0f`;
     
         loadingShow(true,"yellow");                     // betöltés folyamatban jelzés megjelenítése        
          let responsFilm = await fetch(url);
@@ -148,7 +148,7 @@ function filmekMegjelenitese(moziFilmek) {
 // a kiválasztott filmhez részletes információk megjelenítése
 //***********************************************************
 async function filmDetailShow(aktID) {     
-    let url = `http://www.omdbapi.com/?i=${aktID}&apiKey=9606ae0f`;
+    let url = `https://www.omdbapi.com/?i=${aktID}&apiKey=9606ae0f`;
 
     let respFilm = await fetch(url);
     if (respFilm.ok) {
@@ -182,7 +182,7 @@ async function filmekSzama(keresettWord, keresettYear) {
     do {  
         noBreakOut = false;
         lapSzam = lapSzam+1;
-        let url = `http://www.omdbapi.com/?s=${encodeURI(keresettWord)}&y=${keresettYear}&page=${lapSzam.toString()}&apiKey=9606ae0f`;
+        let url = `https://www.omdbapi.com/?s=${encodeURI(keresettWord)}&y=${keresettYear}&page=${lapSzam.toString()}&apiKey=9606ae0f`;
         
         let responsFilm = await fetch(url);
         if (responsFilm.ok) {
