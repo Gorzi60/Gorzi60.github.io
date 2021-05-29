@@ -249,21 +249,20 @@ body {
     .lapozas .nextPage {
         display: inline-block;
         padding: 0.3rem 0.4rem;
-        background: #fff;
         border: 0.08rem solid rgba(0,0,0,0.2);
         margin: 0 0.4rem 1rem 0;
         text-decoration: none;  
     }
 
-        .lapozas .page:visited {
-            background:white;
-            color:grey;
-        }
+    .lapozas .pageColor {
+        background:white;
+        color:grey;
+    }
 
-        .lapozas .page:hover {
-            background: rgb(170, 170, 231);
-            color: #fff
-        }
+    .lapozas .page:hover:not(.megjelolPage) {
+        background: rgb(170, 170, 231);
+        color: #fff
+    }
 
     .lapozas .prevPage,
     .lapozas .nextPage {
@@ -278,23 +277,18 @@ body {
         }
 
     /*--- aktuális lap megjelölése ------*/        
-    .megjelolPage,
-    .lapozas .page:focus {
+    .megjelolPage {
         background:rgb(94, 94, 231);
         color:white;
     }
-
-    /* .lapozas .page:hover:not(.megjelolPage) {
-        background: rgb(170, 170, 231);
-        color: #fff
-    }     */
 
 
 /* Aktuális lapszám kiírása a pagination alá */
 .pageNumbers {
     display: flex;
     justify-content: center;
-}            
+}        
+
     .pageNumbers p {
         margin: 0 auto 1rem;
         font-style: italic;
@@ -360,8 +354,15 @@ body {
         #formSearch button {
             width: 13rem;    
         }
- }
- 
+
+    /* kis méretnél kisebbre veszi a margót, hogy kiférjen a lapozó */
+    .lapozas .page {
+        padding: 0.3rem 0.3rem;
+        margin: 0 0.3rem 1rem 0;   
+    }
+
+  }
+
  @media (min-width: 576px) and (max-width: 767px) {          /* SM - smart mobile */
     :root {
         --elemWidth : 43vw; 

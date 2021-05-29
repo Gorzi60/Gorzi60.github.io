@@ -1,7 +1,8 @@
-//************************************************************************
-//    Hivása:    alertSK("üzenet szöveg","#fff","#39e600");              *
-// saját üzenet megjelenítése adott betű és háttérszínnel                *
-//************************************************************************
+//*********************************************************************************
+//    Hivása:    alertSK("üzenet szöveg","#fff","#39e600",waitTime);              *
+// saját üzenet megjelenítése adott betű és háttérszínnel, várakozással (sec-ben) *
+// - ha nincs megadva várakozási idő, akkor vár a bezárásara az ablak             *
+//*********************************************************************************
 
 //jQuery beimportálása, ha nincs - az üzenet hossz-számítása miatt szükséges
 if ( !document.querySelector("script[src~='jquery.com']") ) {
@@ -10,7 +11,7 @@ if ( !document.querySelector("script[src~='jquery.com']") ) {
    document.head.appendChild(jQueryScript);
 }
 
-function alertSK(uzenet="Nincs üzenet!", colorBetu="white", colorHatter="#cc0000") {
+function alertSK(uzenet="Nincs üzenet!", colorBetu="white", colorHatter="#cc0000",waitTime=0) {
 
   // üzenet hosszának meghatározása pixelben - megerőszakolva
     let calcDiv = document.createElement("div");
@@ -59,8 +60,14 @@ function alertSK(uzenet="Nincs üzenet!", colorBetu="white", colorHatter="#cc000
         <br>       
       </div>
     `    
-    document.querySelector("#uziBox").innerHTML = message;
-    
+   const uziAblak = document.querySelector("#uziBox");
+   uziAblak.innerHTML = message;
+
+  // if (waitTime > 1) {                    // a megadott idő múlva bezáródik az üzenet
+  //   setTimeout(function() {
+  //      uziAblak.style.display = "none";
+  //   }, waitTime * 1000);      
+  // }
 }
 
 function bezarUzenet(elem) {
