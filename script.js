@@ -51,8 +51,7 @@ async function filmsLoading(actualPage) {
          let responsFilm = await fetch(url);
          if (responsFilm.ok) {
             let movieList = await responsFilm.json(); 
-            if (movieList.Search) {                     // az adatállomány ilyen nevű tömbben van
-               loadingShow(false);                      // betöltés folyamatban jelzés eltüntetése
+            if (movieList.Search) {                     // az adatállomány ilyen nevű tömbben van               
                // filmek megjelenítése
                filmekMegjelenitese(movieList.Search);   
             } else {
@@ -61,7 +60,7 @@ async function filmsLoading(actualPage) {
          } else {
              alertSK("Sikertelen a keresés ...");
          }
-        loadingShow(false);        
+        loadingShow(false);                             // betöltés folyamatban jelzés eltüntetése   
 }
 
 // filmek megjelenítéséhez html-elemek összeállítása

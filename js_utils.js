@@ -1,7 +1,7 @@
 //*********************************************************************************
 //    Hivása:    alertSK("üzenet szöveg","#fff","#39e600",waitTime);              *
 // saját üzenet megjelenítése adott betű és háttérszínnel, várakozással (sec-ben) *
-// - ha nincs megadva várakozási idő, akkor vár a bezárásara az ablak             *
+// - ha nincs megadva várakozási idő, akkor vár a bezárására az ablak             *
 //*********************************************************************************
 
 //jQuery beimportálása, ha nincs - az üzenet hossz-számítása miatt szükséges
@@ -11,17 +11,17 @@ if ( !document.querySelector("script[src~='jquery.com']") ) {
    document.head.appendChild(jQueryScript);
 }
 
-function alertSK(uzenet="Nincs üzenet!", colorBetu="white", colorHatter="#cc0000",waitTime=0) {
+//**************************************************************************************
+function alertSK(uzenet="Nincs üzenet!", colorBetu="white", colorHatter="#cc0000", waitTime=0) {
 
   // üzenet hosszának meghatározása pixelben - megerőszakolva
     let calcDiv = document.createElement("div");
     calcDiv.setAttribute("id","textDiv");
     calcDiv.style ="display:none;";
     document.body.appendChild(calcDiv); 
-    let segedDiv = document.getElementById("textDiv");
-    segedDiv.innerHTML = `${uzenet}`;
-      let uziHossz = Math.floor($("#textDiv").width());    // ehhez kellett a jQuery, mert csak ebben van a width() fgv.
-    segedDiv.remove();
+    calcDiv.innerHTML = `${uzenet}`;
+    let uziHossz = Math.floor($("#textDiv").width());      // ehhez kellett a jQuery, mert csak ebben van a width() fgv.
+    calcDiv.remove();
   //  let uziHossz = uzenet.length*9;                      // a 9 egy becslés pixelben, ha fenti túl bonyolult lenne. :-)
     
     let ablakSize = window.innerWidth;
@@ -53,7 +53,7 @@ function alertSK(uzenet="Nincs üzenet!", colorBetu="white", colorHatter="#cc000
           box-shadow: 0.5rem 0.5rem 0.4rem rgba(0, 0, 0);
           width: ${widthDiv}rem;            
         ">
-        <span onclick = bezarUzenet(this) onmouseover=closeHover(this,"lightgrey") onmouseout=closeHover(this,["${colorHatter}"])
+        <span onclick=bezarUzenet(this) onmouseover=closeHover(this,"lightgrey") onmouseout=closeHover(this,["${colorHatter}"])
                 style="position:absolute; top:0; right:0; font-size:1.5rem; color:#000; cursor:pointer">&nbsp;&times;&nbsp;</span>
         <br>
         <p style="text-align:center; margin-top: 1rem; line-height:1.5rem;">${uzenet}</p>  
@@ -61,15 +61,17 @@ function alertSK(uzenet="Nincs üzenet!", colorBetu="white", colorHatter="#cc000
       </div>
     `    
    const uziAblak = document.querySelector("#uziBox");
+   uziAblak.style.display = "block";                     // mert valahogy megjegyzi az előző meghíváskori "none"-t
    uziAblak.innerHTML = message;
 
-  // if (waitTime > 1) {                    // a megadott idő múlva bezáródik az üzenet
-  //   setTimeout(function() {
-  //      uziAblak.style.display = "none";
-  //   }, waitTime * 1000);      
-  // }
+   if (waitTime > 1) {                                   // a megadott idő múlva bezáródik az üzenet
+     setTimeout(function() {
+        uziAblak.style.display = "none";
+     }, waitTime * 1000 );    
+   }
+   
 }
-
+//-------------------------------
 function bezarUzenet(elem) {
    elem.parentElement.style.display = "none";
 }
@@ -96,16 +98,16 @@ if ( !document.querySelector("script[src~='fontawesome.com']") ) {
     iconScript.setAttribute("src","https://kit.fontawesome.com/ec2c2b7cb5.js");
     document.head.appendChild(iconScript);
  }
-
-function loadingShow(onoff,szin="black") {
+//-----------------------------------------------
+function loadingShow(onoff, szin="dodgerblue") {
     if (onoff!==undefined) {
         if (onoff) {
             let waitBtn = document.createElement("button");
             waitBtn.setAttribute("id","loadingButton");
-            waitBtn.style =`border:none; background:none; color:${szin}; position:absolute; top: 38vh; left: 48vw; font-size:2.4rem; z-index:5000;`  
+            waitBtn.style =`border:none; background:none; color:${szin}; position:absolute; top: 38vh; left: 48vw; font-size:4rem; z-index:5000;`  
             waitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
-            //waitBtn.innerHTML = `<i class="fas fa-circle-o-notch fa-spin"></i>`;
-            // waitBtn.innerHTML = `<i class="fas fa-refresh fa-spin"></i>`;            
+           //  waitBtn.innerHTML = `<i class="fas fa-circle-o-notch fa-spin"></i>`;
+           //  waitBtn.innerHTML = `<i class="fas fa-refresh fa-spin"></i>`;            
             document.body.appendChild(waitBtn); 
         } else {
             let torol = document.querySelector("#loadingButton");
