@@ -100,7 +100,7 @@ function filmDetailsTemplateMaker(infoFilm) {
         <span class="leirasCloseBtn clearfix">&times;</span>
         <br>
         <h5>${infoFilm.Title}</h5>               
-        <div style="display: flex">
+        <div class="tartalomDiv">
             <span>Tartalom: </span>
             <span class="plotFilm">
               ${infoFilm.Plot}
@@ -108,7 +108,7 @@ function filmDetailsTemplateMaker(infoFilm) {
         </div>               
         <p><span style="float:right">${infoFilm.Runtime}</span></p>                
         <p>Rendezte: <span>${infoFilm.Director}</span></p>
-        <div style="display: flex">
+        <div class="tartalomDiv">
             <span>Főszereplők: </span>
             <span class="actorsFilm">
               ${infoFilm.Actors}

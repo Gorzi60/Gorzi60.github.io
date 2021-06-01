@@ -75,7 +75,7 @@ body {
             }
 
     #formSearch button {
-        padding: 0.3rem 2rem;
+        padding: 0.5rem 2rem;
         background: rgb(240, 190, 96);
         color: brown;
         border: 0.05rem solid brown;
@@ -164,12 +164,13 @@ body {
     top: calc((100% - 45vh) / 2);
     left: calc((100% - 45vw) / 2);
     width: 45vw;
-    height: 45vh;
+    height: 55vh;
     background: rgb(165, 169, 212);
     padding: 10px;
     border: 2px double rgb(14, 91, 97);
     box-shadow: 3px 3px 10px black;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;   
+    font-family:Verdana, Geneva, Tahoma, sans-serif;  
+    overflow: auto;
 }
 
 .leirasCloseBtn {
@@ -188,8 +189,9 @@ body {
     padding: 0.5rem;
 }
 
-    .infoBox div {
+    .infoBox .tartalomDiv {
         padding-bottom: 1rem;
+        display: flex
     }
 
     .infoBox p > span {       /*}:not(:nth-of-type(1)) {*/
@@ -208,11 +210,14 @@ body {
 .plotFilm, .actorsFilm {
     padding-left: 1.2rem;
     padding-top: 0.1rem;
-    text-align: justify;
     font-style: italic;
     line-height: 1.5rem;
     font-size: 1rem;
     font-family: Tahoma, sans-serif;
+}
+
+.plotFilm {
+    text-align: justify;
 }
 
 .dispBox {
@@ -312,7 +317,23 @@ body {
   MEDIA QUERIES                       prg (>=1200px)  XL - desktop   
  ****************/                  
                                     
- @media (max-width: 575px) {        /* XS - mini mobile (pl. Iphone 5S) */
+ @media (max-width: 374px) {     /* < XS - mini mobile (pl. Iphone 5S) */
+    .infoBox h5 {
+       font-size: 1rem;
+    }
+    .infoBox .tartalomDiv span,
+    .infoBox p,
+    .infoBox p span {
+        line-height: 1.1rem;
+        font-size: 0.85rem;
+    }  
+    .movieTitle {
+        font-size: 0.85rem;
+    }
+}
+
+ /*--------------------------------------*/
+ @media (max-width: 575px) {        /*  XS  */
     :root {
         --elemWidth : 80vw; 
     }
@@ -322,9 +343,9 @@ body {
 
     /* részletes filmleíráshoz  */
     .filmLeiras {                     
-        top: calc((100% - 60vh) / 2);
+        top: calc((100% - 70vh) / 2);
         left: calc((100% - 85vw) / 2);
-        height: 60vh;
+        height: 70vh;
         width: 85vw;    
     }   
     .infoBox p span {        
@@ -363,6 +384,7 @@ body {
 
   }
 
+/*--------------------------------------*/
  @media (min-width: 576px) and (max-width: 767px) {          /* SM - smart mobile */
     :root {
         --elemWidth : 43vw; 
@@ -405,6 +427,7 @@ body {
         }
  }
 
+ /*--------------------------------------*/
  @media (min-width: 768px) and (max-width: 991px) {         /* MD - tablet */
     :root {
         --elemWidth : 30vw; 
@@ -433,6 +456,7 @@ body {
     }
  }
 
+ /*--------------------------------------*/
  @media (min-width: 992px) and (max-width: 1192px) {          /* LG - mini laptop */
     :root {
         --elemWidth : 30vw; 
@@ -464,6 +488,7 @@ body {
         }
  }
 
+ /*--------------------------------------*/
  @media (min-width: 1193px) and (max-width: 1410px) {        /* ez csak muszájból! */
     :root {
         --elemWidth : 25vw; 
@@ -499,9 +524,9 @@ body {
     }
 }
 
-/* ez csak próba volt */
+/* ez csak próba miatt van itt */
 @media (orientation: landscape) {
-    body {
-        background: rgb(66, 65, 68);
+    #fejcim {
+        color: blue;        
     }
 }
