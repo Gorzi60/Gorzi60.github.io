@@ -4,18 +4,30 @@
 * {
     box-sizing: border-box;
 }
-:root {
-    --elemWidth : 17vw;                        /* filmCard elem szélessége */
+:root {  
+    --elemWidth : 17vw;  
+    --bodyBgColor : #bcecec;                     /* oldal háttérszín */
+    --wrapperBgColor : #94e3e6;                  /* főkép háttérszín */
+    --filmCardBgColor : #3de2ad;                 /* film-kárya háttérszín */
+    --filmCardBgColorHover : #7bf37bd8;          /* film-kárya hover-háttérszín */
+    --fCardMoreBtnBgColor : #B9F7F9;             /* film-kárya részletek gomb háttérszín */
+    --fCardMoreBtnColor : #373737;               /* film-kárya részletek gomb szín */
+    --filmLeirasBgColor : rgb(200, 200, 200);    /* filmek leírása háttérszín */
+    --fejlecBgColor : #1f9972d8;                 /* fejlec háttérszín */
+    --formBgColor : #bcecec;                     /* kereső form háttérszín  */
+    --formBtnBgColor : #94e3e6;                  /* kereső form gomb háttérszín */
+    --formBtnBgColorHover : #3de2ad;             /* kereső form gomb hover-szín */
 }
+
 body {
-   background: rgb(53, 52, 52);
+   background: var(--bodyBgColor);
    font-family: "Lucida Sans", sans-serif;
 }
 .wrapper {
     max-width: 1200px;    
     padding: 0;
     margin: 0 auto;
-    background: rgb(119, 117, 117);
+    background: var(--wrapperBgColor);
     position: relative;
 }
 
@@ -32,16 +44,14 @@ body {
 .fejlecDiv {
     min-height: 14rem;    
     margin: 0 auto;
-    background: rgba(143, 167, 179, 0.9);
-    /* opacity: 0.92;    */
-    /* z-index: 1000; */
+    background: var(--fejlecBgColor);
 } 
 
 #formSearch {
-    background: rgb(230, 221, 123);
+    background: var(--formBgColor);
+    color: black;
     border: 0.06rem solid black;
     padding: 1rem;
-    color: black;
     width: 40vw;
     margin: 0 auto;
     display: flex;
@@ -65,27 +75,26 @@ body {
         #formSearch label input {
             background: white;
             color: black;
-            outline: 0.01rem solid rgb(192, 189, 189); 
+            outline: 0.01rem solid rgb(190, 190, 190); 
             margin-right: 2em;
             font-size: 0.92rem;
         }
             #formSearch label input:focus {
-                background: rgb(233, 216, 186);
-                outline: 0.15rem solid rgb(221, 157, 104);   
+                outline: 0.15rem solid rgb(120, 120, 120);   
             }
 
     #formSearch button {
         padding: 0.5rem 2rem;
-        background: rgb(240, 190, 96);
-        color: brown;
-        border: 0.05rem solid brown;
+        background: var(--formBtnBgColor);
+        color: black;
+        border: 0.05rem solid black;
         border-radius: 0.4rem;
         margin-left: 1rem;
         margin-top: 1.3rem;
     }
         #formSearch button:hover {
-            background: rgb(206, 159, 58);
-            color: yellow;
+            background: var(--formBtnBgColorHover);
+            color: white;
         }
   
 /***************************/
@@ -108,12 +117,18 @@ body {
     position : relative; 
     padding: 0.5rem;
     margin:0.3rem;
-    background: rgb(143, 141, 141);
-    border: 0.3rem outset rgb(153, 149, 149);
+    background: var(--filmCardBgColor);
+    box-shadow: 0.4rem 0.4rem 0.4rem rgb(80, 80, 80);
     height: calc(var(--elemWidth) * 1.9);     
     max-width: var(--elemWidth);
     font-size: 1rem;
 }
+
+  .filmCard:hover {
+      /* transform: scale(1.02); */
+      background: var(--filmCardBgColorHover);
+      box-shadow: 1rem 1rem 1rem rgb(80, 80, 80);
+  }
 
 .moviePoster {
     width: 100%; 
@@ -132,7 +147,7 @@ body {
 }
 .movieYear {
     float: left;
-    color:darkblue;
+    color:black;
 }
 .alsoResz {
     position : absolute; 
@@ -141,8 +156,8 @@ body {
 } 
     .alsoResz input {
         float: right;
-        background : rgb(190, 190, 135);
-        color: darkblue;
+        background : var(--fCardMoreBtnBgColor);
+        color: var(--fCardMoreBtnColor);
         padding: 0.2rem;
         margin-bottom: 1rem;
         border-radius: 1rem;
@@ -151,8 +166,9 @@ body {
         max-width: 6rem;   
     }
         .alsoResz input:hover {
-            background : rgb(216, 216, 112);  
-            transform: scale(1.06);   
+            background: var(--fejlecBgColor);
+            color: white;
+            border: 0;            
         }
 
 /*****************************/
@@ -161,11 +177,11 @@ body {
 .filmLeiras {
     display: none;
     position: fixed;
-    top: calc((100% - 45vh) / 2);
+    top: calc((100% - 50vh) / 2);
     left: calc((100% - 45vw) / 2);
     width: 45vw;
-    height: 55vh;
-    background: rgb(165, 169, 212);
+    height: 50vh;
+    background: var(--filmLeirasBgColor);
     padding: 10px;
     border: 2px double rgb(14, 91, 97);
     box-shadow: 3px 3px 10px black;
@@ -177,11 +193,11 @@ body {
     padding: 0.1rem 0.2rem;
     float: right;
     font-weight: bold;
-    border: 0.01rem solid rgb(68, 66, 66);
+    border: 0.01rem solid rgb(66, 66, 66);
     border-radius: 15%;
 }
     .leirasCloseBtn:hover {
-        background: rgb(133, 139, 201);
+        background: rgb(150, 150, 150);
         cursor: pointer;
     }
 
@@ -194,7 +210,7 @@ body {
         display: flex
     }
 
-    .infoBox p > span {       /*}:not(:nth-of-type(1)) {*/
+    .infoBox p > span {               /*}:not(:nth-of-type(1)) {*/
         font-style:italic;
         line-height: 1.5rem;
         font-size: 1rem;
@@ -233,10 +249,10 @@ body {
     line-height: 3rem;
     width: 100%;
     color: lightgray;
-    background: rgb(14, 14, 14);      
+    background: #373737;      
 }
     .lablec > p {
-        margin: 0 auto;
+        margin: 1rem auto 0;
     }
 
 
@@ -257,33 +273,34 @@ body {
         border: 0.08rem solid rgba(0,0,0,0.2);
         margin: 0 0.4rem 1rem 0;
         text-decoration: none;  
+        cursor: pointer;
     }
 
     .lapozas .pageColor {
         background:white;
-        color:grey;
+        color:black;
     }
 
     .lapozas .page:hover:not(.megjelolPage) {
-        background: rgb(170, 170, 231);
+        background: rgb(180, 180, 180);
         color: #fff
     }
 
     .lapozas .prevPage,
     .lapozas .nextPage {
-        background: rgb(161, 233, 233);
+        background: rgb(180, 180, 180);
         border-radius: .4rem;
     }
 
         .lapozas .prevPage:hover,
         .lapozas .nextPage:hover {
-            background: rgb(40, 116, 116);
+            background: rgb(160, 160, 160);
             color: #fff
         }
 
     /*--- aktuális lap megjelölése ------*/        
     .megjelolPage {
-        background:rgb(94, 94, 231);
+        background:rgb(100, 100, 100);
         color:white;
     }
 
@@ -297,7 +314,7 @@ body {
     .pageNumbers p {
         margin: 0 auto 1rem;
         font-style: italic;
-        color: darkblue;
+        color: black;
     }
 
 /* Egyeb */
@@ -305,11 +322,11 @@ body {
 .elrejtes {display: none}
 
 .uresResz {
-    height: calc(100vh - 17rem);
+    height: calc(100vh - 18rem);          /* +1rem a lábléc felső margin */
 }
 /* ha csak egy sor filmcard jelenik meg a láblécet alólra nyomja (.6rem a card marginja) */
 .uresResz2 {
-    height: calc( 100vh - 17rem - calc(var(--elemWidth) * 1.9) - .6rem );
+    height: calc( 100vh - 18rem - calc(var(--elemWidth) * 1.9) - .6rem );
 }
 
 
@@ -343,9 +360,9 @@ body {
 
     /* részletes filmleíráshoz  */
     .filmLeiras {                     
-        top: calc((100% - 70vh) / 2);
+        top: calc((100% - 60vh) / 2);
         left: calc((100% - 85vw) / 2);
-        height: 70vh;
+        height: 60vh;
         width: 85vw;    
     }   
     .infoBox p span {        
@@ -393,9 +410,7 @@ body {
         font-size: 0.9rem;
     }
     .filmLeiras {                       
-        top: calc((100% - 50vh) / 2);
         left: calc((100% - 80vw) / 2);
-        height: 50vh;
         width: 80vw;    
     } 
     .infoBox p span {        
@@ -436,9 +451,7 @@ body {
         font-size: 0.9rem;
     }
     .filmLeiras {                       
-        top: calc((100% - 50vh) / 2);
         left: calc((100% - 70vw) / 2);
-        height: 50vh;
         width: 70vw;    
     } 
     .infoBox p span {        
@@ -465,9 +478,7 @@ body {
         height: calc(var(--elemWidth) * 1.83);     
     }
     .filmLeiras {                       
-        top: calc((100% - 45vh) / 2);
         left: calc((100% - 65vw) / 2);
-        height: 45vh;
         width: 65vw;    
     } 
     .infoBox p span {        
@@ -504,9 +515,7 @@ body {
         font-size: 0.9rem;
     }
     .filmLeiras {                       
-        top: calc((100% - 45vh) / 2);
         left: calc((100% - 60vw) / 2);
-        height: 45vh;
         width: 60vw;    
     } 
     .infoBox p span {        
@@ -521,12 +530,5 @@ body {
     #formSearch {                   
         display: flex;
         width: 50vw;
-    }
-}
-
-/* ez csak próba miatt van itt */
-@media (orientation: landscape) {
-    #fejcim {
-        color: blue;        
     }
 }

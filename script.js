@@ -6,18 +6,11 @@
 var searchWord ="";                     // keresett film címe
 var searchYear = "";                    // keresett film éve
 var startLap = true;                    // az elso megjelenítéskori beállításhoz
-var aktPage = "1";                      // aktuális/mutatott lap
-var firstPageVisible = 1;               // lapozósorban első látható lap
-var talalatOsszesen = 0;                // talált filmek száma összesen 
-var sumPage = 1;                        // talált filmek megjelenítéséhez szüks. lapok száma
+
 const keresoForm = document.querySelector("#formSearch");
 const uresReszHelye = document.querySelector("#emptySection"); //lábléc pozicionálásához
-const lapozoSav = document.querySelector(".lapozas");
 const filmsList = document.querySelector(".filmLista");
 const leirElem = document.querySelector(".filmLeiras");
-const whichPage = document.querySelector(".pageNumbers");
-const elozoPage = document.querySelector(".lapozas .prevPage");
-const kovetkezoPage = document.querySelector(".lapozas .nextPage");
 
 
 //kereső kifejezések kiolvasása
@@ -32,35 +25,66 @@ keresoForm.addEventListener('submit', function(event) {
          if ( startLap || ((searchWord!=sWord) || (searchYear!=sYear)) ) {   
             searchWord = sWord;
             searchYear = sYear;
-            filmekSzama(searchWord, searchYear);         // filmek számának kiszámítása        
-            aktPage = "1";
-            firstPageVisible = 1;            
-            filmsLoading(aktPage);                       // filmcard-ok letöltése, megjelenítése
+            state.aktPage = "1";                          // a state obj. a js_utils-ban van
+            state.firstPageVisible = 1;            
+            state.mutatottElemekSzama = 20;               // egyszerre hány filmadat jelenjen meg            
+             filmsDownload(searchWord, searchYear);       // filmek számának kiszámítása        
          }
      } else {
         return false;
      }
 });
 
-// a keresésnek megfelelő oldal (max. 10 db film adattal) letöltése
-//*****************************************************************
-async function filmsLoading(actualPage) {
-    let url = `https://www.omdbapi.com/?s=${encodeURI(searchWord)}&y=${searchYear}&page=${actualPage}&apiKey=9606ae0f`;
-    
-        loadingShow(true,"yellow");                     // betöltés folyamatban jelzés megjelenítése        
-         let responsFilm = await fetch(url);
-         if (responsFilm.ok) {
-            let movieList = await responsFilm.json(); 
-            if (movieList.Search) {                     // az adatállomány ilyen nevű tömbben van               
-               // filmek megjelenítése
-               filmekMegjelenitese(movieList.Search);   
-            } else {
-                alertSK("Sikertelen a keresés, nem találok ilyen filmet!");
+//**  a keresés alapján egy tömb feltöltése és az adott filmek száma
+//*******************************************************************
+async function filmsDownload(keresettWord, keresettYear) {   
+    let noBreakOut;  
+    let lapSzam = 0;
+    let movieList;
+    let url;
+    let responsFilm; 
+    state.talalatOsszesen = 0;
+    state.filmTomb = [];
+    loadingShow(true,"yellow");
+    do {  
+        noBreakOut = false;
+        lapSzam += 1;
+        url = `https://www.omdbapi.com/?s=${encodeURI(keresettWord)}&y=${keresettYear}&page=${lapSzam.toString()}&apiKey=9606ae0f`;
+        
+        responsFilm = await fetch(url);
+        if (responsFilm.ok) {
+            movieList = await responsFilm.json(); 
+            if (movieList.Search) {                     // régi: .Response == "True") {
+                for (let movie of movieList.Search) {
+                    state.filmTomb.push(movie);         // az összes talált obj.adatokat betöltöm egy tömbbe, hogy darabolható legyen
+                }
+                if (movieList.Search.length >= 10) {    // egyszerre csak 10 filmet lehet letölteni az adatbázisból     
+                    noBreakOut = true;
+                }
+            } else if (state.filmTomb.length === 0) {
+                alertSK("Ez a keresés sikertelen, nem találok ilyen filmet!");
             } 
-         } else {
-             alertSK("Sikertelen a keresés ...");
-         }
-        loadingShow(false);                             // betöltés folyamatban jelzés eltüntetése   
+        } else {
+                alertSK("Ez a keresés sikertelen ...");
+        }                
+    } while (noBreakOut);
+    
+    loadingShow(false); 
+    state.talalatOsszesen = state.filmTomb.length;         // a talált filmek száma
+    if (state.talalatOsszesen > 0) {
+      //***   PAGINATION    - lapozó gombsor felhelyezése az oldalra - ha indokolt
+      //-------------------
+       myLapozas(filmsLoading,state.talalatOsszesen,state.mutatottElemekSzama);     
+       filmsLoading();                                      // filmcard-ok letöltése, megjelenítése
+    }   
+}
+
+// a keresésnek megfelelő kiválasztott oldal letöltése
+//****************************************************
+function filmsLoading() {                                  // filmek megjelenítése
+    const start = (Number(state.aktPage)-1) * state.mutatottElemekSzama;
+    const end = (start + state.mutatottElemekSzama < state.talalatOsszesen) ? start + state.mutatottElemekSzama : state.talalatOsszesen;
+    filmekMegjelenitese(state.filmTomb.slice(start, end));     
 }
 
 // filmek megjelenítéséhez html-elemek összeállítása
@@ -120,15 +144,15 @@ function filmDetailsTemplateMaker(infoFilm) {
     return showReszlet;
 }
 
-//**************************************************************
-// a letöltött 10 db film adatainak megjelenítése kártyaszerűen
-//**************************************************************
+//*****************************************************************
+// az egyszerre megjelenítendő filmek megmutatása - kártyaszerűen
+//*****************************************************************
 function filmekMegjelenitese(moziFilmek) {
     if (startLap) {  
        uresReszHelye.classList.remove("uresResz");  // lábléc feletti üres terület eltörlése
        startLap = false;                            // csak az első lista megjelenítése előtt kell
     }
-    if (talalatOsszesen < 5) {
+    if (state.talalatOsszesen < 5) {
         uresReszHelye.classList.add("uresResz2");
     } 
 
@@ -167,159 +191,8 @@ async function filmDetailShow(aktID) {
     }
 }
 
-//**  a keresési találatok - adott filmek száma
-//***********************************************
-async function filmekSzama(keresettWord, keresettYear) {
-    let noBreakOut;  
-    let lapSzam = 0;
-    let movieDB = 0;
-    talalatOsszesen = 0;
-    loadingShow(true,"yellow");
-    do {  
-        noBreakOut = false;
-        lapSzam = lapSzam+1;
-        let url = `https://www.omdbapi.com/?s=${encodeURI(keresettWord)}&y=${keresettYear}&page=${lapSzam.toString()}&apiKey=9606ae0f`;
-        
-        let responsFilm = await fetch(url);
-        if (responsFilm.ok) {
-            let movieList = await responsFilm.json(); 
-            if (movieList.Response == "True") {
-                movieDB = movieList.Search.length;
-                talalatOsszesen = talalatOsszesen + movieDB;  
-                if (movieDB >= 10) {         
-                    noBreakOut = true;
-                }
-            } else {
-                alertSK("Ez a keresés sikertelen, nem találok ilyen filmet!");
-            } 
-        } else {
-            alertSK("Ez a keresés sikertelen ...");
-        }                
-    } while (noBreakOut);
-    
-    loadingShow(false); 
 
-    sumPage = Math.ceil(talalatOsszesen / 10);        // oldalak száma összesen
-    // pagination felhelyezése az oldalra, ha indokolt
-    lapozasShow();                                    // egy fülön max. 10 db film megjelenítése
-
-    let scrollingLmnt = (document.scrollingElement || document.body);  
-    scrollingLmnt.scrollTop = 0;         // hogy a lap teteje látszódjon, ne ugorjon alólra
-}
-
-//**************************
-//*****   PAGINATION   *****
-//**************************
-
-//**  lapozó fülek megjelenítése
-//********************************
-function lapozasShow() { 
-    if (sumPage > 1) {  
-        // összeállított lapozósor megjelenítése az oldalon (ha a találat 10 feletti)
-        lapozoSav.classList.remove("elrejtes");
-        lapozoSav.innerHTML = lapozoSorTemplateMaker();    
-
-        whichPage.classList.remove("elrejtes");
-        whichPage.innerHTML = `<p><span>${aktPage}/${sumPage}</span> oldal</p>`;    
-
-         pagesAddEvents();                     // eseménykezelők hozzárendelése a fülekhez               
-
-    } else {
-        lapozoSav.classList.add("elrejtes");
-        whichPage.classList.add("elrejtes");
-    }
-}
-
-// Oldalak lapozásához lapjelző-gombsor összeállítása - ha 1 lap van, nem jeleníti meg a lapozósort
-//***************************************************
-function lapozoSorTemplateMaker() {                         
-    let maxLap = (sumPage < 10)?sumPage:(10+firstPageVisible-1);
-    let lapSor = "";
-    let ablakMeret = window.innerWidth;
-    let akt_lap = Number(aktPage);
-
-    // az Előző-gomb felhelyezése a sor elejére - szükség esetén
-    if (firstPageVisible > 1) {
-        // a siteBottom-ra (üres div) hivatkozás azért van benne, hogy a lap alján maradjon
-        if (ablakMeret > 550) {               // kisebb méretnél rövidebb a gomb szövege
-            lapSor += `<a class="prevPage" href="#siteBottom">&lt; Előző</a>`;
-        } else {
-            lapSor += `<a class="prevPage" href="#siteBottom">&lt;</a>`;
-        }
-    }
-
-    // max. 10 db lapozó-gomb elhelyezése (ha kevesebb lap van, akkor annyit)
-    // akkor jelöli meg, ha a látható az aktPage
-    if ( (akt_lap >= firstPageVisible) && (akt_lap <= maxLap) ) {
-        for (let i = firstPageVisible; i < akt_lap; i++) {
-            lapSor += `<a class="page pageColor" href="#">${i}</a>`
-        }                              
-        lapSor += `<span class="page megjelolPage">${aktPage}</span>`      // az aktuális, megjelölt lap
-        for (let i = akt_lap+1; i <= maxLap; i++) {
-            lapSor += `<a class="page pageColor" href="#">${i}</a>`
-        }                  
-    } else {
-        for (let i = firstPageVisible; i <= maxLap; i++) {                 // ekkor nem jelöl meg egy lapot sem
-            lapSor += `<a class="page pageColor" href="#">${i}</a>`
-        }  
-    }
-
-    // a Következő-gomb felhelyezése a sor elejére - szükség esetén
-    if ( (sumPage > 10) && ((sumPage - firstPageVisible) > 9) ) {
-        if (ablakMeret > 550) {
-            lapSor += `<a class="nextPage" href="#siteBottom">Következő &gt;</a>`;
-        } else {
-            lapSor += `<a class="nextPage" href="#siteBottom">&gt;</a>`;
-        }        
-    }    
-    return lapSor;
-}
-
-// lapozó fülek megjelenítése és a fülekhez eseménykezelők hozzáadása
-//********************************************************************
-function pagesAddEvents() {  
-    document.querySelectorAll('.lapozas .page').forEach(page => page.addEventListener('click',event => {
-        aktPage = event.target.textContent;
-        filmsLoading(aktPage);                
-         aktPageMarker();
-        document.querySelector(".pageNumbers p span").innerHTML = `${aktPage}/${sumPage}`;     
-        lapozasShow(); 
-      } 
-    ));
-    
-    // következő lapok megjelenítése
-    if ( (sumPage > 10) && ((sumPage - firstPageVisible) > 9) ) {
-        document.querySelector('.nextPage').addEventListener('click',event => {
-            firstPageVisible += 1;
-            lapozasShow();           
-        });  
-    }      
-    
-    // előző lapok megjelenítése
-    if (firstPageVisible > 1) {
-        document.querySelector('.prevPage').addEventListener('click',event => {
-            firstPageVisible -= 1;
-            lapozasShow();   
-        });
-    } 
-}
-
-// lapozósávban az aktuális fül megjelölése
-//******************************************
-function aktPageMarker() {
-    let lapMarker = Number(aktPage);
-    let jeloltLap = document.querySelector(".lapozas span");
-    if (jeloltLap) {                                        // ha a képernyőn van a jelölt lap
-        jeloltLap.classList.remove("megjelolPage");
-    }           
-
-    // csak akkor mutatja az aktuális lapot, ha a lapozás ellenére még az látható (a képernyőn van)
-    if ( ((lapMarker - firstPageVisible) > 1) && ((lapMarker - firstPageVisible) < 10) ) {
-        document.querySelector(".lapozas a:nth-child("+(lapMarker-firstPageVisible+1)+")").classList.add("megjelolPage");
-    } 
-}
-
-//******************************************************* */
+//**********  Adatbevitel ellenőrző függyvények  ******** */
 //******************************************************* */
 function searchWordEllFgv(inputValue) {
     if (inputValue.length < 3) {     
