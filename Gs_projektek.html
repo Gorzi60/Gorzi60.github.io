@@ -127,8 +127,13 @@
         font-size: 1.7rem;
       }
       #filmSeekTitle, #hangmanTitle {
-         font-size: 1.2rem;
+         font-size: 1rem;
+         margin-bottom: .5rem;
       }
+      #filmSeekTitle {
+         margin-top: 2rem;
+      }
+
       main {
         flex-direction: column;
         align-items: center;
@@ -140,6 +145,7 @@
       }
       .lablec > p {
         font-size: 1rem;
+        line-height: 2.5rem;
       }
     }
 
@@ -186,22 +192,21 @@
         <p>Első projektjeim</p>
     </header>
     <main>
-       <div>
-          <div id="filmSeek">
-            <p id="filmSeekTitle">Mozifilm kereső</p>
-            <a href="./Mozifilm/moviefinder.html">
-              <img id="moziKep" src="Movies.jpg" alt="movies">
-            </a>
-          </div>
+       
+        <div id="filmSeek">
+          <p id="filmSeekTitle">Mozifilm kereső</p>
+          <a href="./Mozifilm/moviefinder.html">
+            <img id="moziKep" src="Movies.jpg" alt="movies">
+          </a>
         </div>
-      <div>
+              
         <div id="hangmanGame">
           <p id="hangmanTitle">Akasztófa játék</p>
           <a href="./Hangman/Hangman.html">
             <img id="hmKep" src="Hangman.jpg" alt="hangman">
           </a>
         </div>
-      </div>
+      
     </main>
 
     <footer class="lablec">
