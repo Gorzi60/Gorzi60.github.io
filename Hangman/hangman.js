@@ -1,7 +1,8 @@
 // HANGMAN programhoz - vezérlések, betűvizsgálatok
 //--------------------------------------------------
 const betuk = ['A','Á','B','C','D','E','É','F','G','H','I','Í','J','K','L','M','N','O','Ó','Ö','Ő','P','Q','R','S','T','U','Ú','Ü','Ű','V','W','X','Y','Z'];
-let betuSor = betuk.reduce((total,betu) => (total+`<li class="letterBox">${betu}</li>`),`<ul class="betuLista">`) + `</ul>`;
+let betuSor = betuk.reduce((total,betu) => (total+`<li class="letterBox`+ (("AÁEÉIÍOÓÖŐUÚÜŰ").includes(betu)?` maganhangzoLetter"`:`"`)+`>
+       ${betu}</li>`),`<ul class="betuLista">`) + `</ul>`;
 let szolasok = [];            // ebbe kerülnek beolvasásra a kérdések egy külső file-ből (több mint 600 db)
 let kerdesTomb = [];          // a véletlenszerűen kiválasztott kérdés betűi tömb-elemmé alakkítva
 let kerdesSorok = [];         // a megjelenítendő kérdés tördelt sorokban
@@ -14,7 +15,7 @@ let rosszValasz = 0;          // a rossz betű-választások száma
 let talalat = false;          // jelzi ha van helyes betűválasztás
 
 // Beállítja, hogy hány betűt jelenít meg egy sorban
-const rowWidth = (window.innerWidth > 1000) ? 15 : 12;
+const rowWidth = (window.innerWidth > 1000) ? 15 : (window.innerWidth > 500 ? 12 : 10);
 
 // szótagaloláshoz RegExp-sablon - a magyar kettősbetűket nem tudja kezelni :-(
 const syllableRegex = /[^aáeéiíoóöőuúüű-]*[aáeéiíoóöőuúüű-]+(?:[^aáeéiíoóöőuúüű-]*$|[^aáeéiíoóöőuúüű-](?=[^aáeéiíoóöőuúüű-]))?/gi;
@@ -39,7 +40,7 @@ $(document).ready(function() {
     $(".letterBox").on('click', function() {                                   // kiválaszthat egy betűt az ABC-ből
       if ((kitalaltBetuk < kitalalandoBetukSzama) && (rosszValasz < 10)) {     // hogy ne lehessen betűre kattintani, ha már vége a játéknak
          $(this).fadeTo(800,0);
-         betuChoice = $(this).text();      
+         betuChoice = $(this).text().substr(-1,1);      
          choiceControll();
          gameOverControll();
       }
@@ -65,18 +66,24 @@ $(document).ready(function() {
        } 
     }
 
-    function gameOverControll() {                                   // ellenőrzi, hogy nincs-e vége a játéknak
-      if (rosszValasz == 10) {
+    function gameOverControll() {   
+       if (rosszValasz == 10) {
+         // $('button.gameBtnGrad2').addClass("rejtes");                         // ellenőrzi, hogy nincs-e vége a játéknak
          setTimeout(function(){
-            alertSK("Sajnos ez nem sikerült! Próbálja meg újra, legközelebb jobb lesz!","black","red",4);
-            $('button.gameBtn').removeClass("rejtes");
+            alertSK("Sajnos ez nem sikerült! Próbálja meg újra, legközelebb jobb lesz!","black","red",3);
          },1000);
+         setTimeout(function(){
+            $('button.gameBtnGrad1').removeClass("rejtes");
+         },4000);
       } 
       if (kitalaltBetuk == kitalalandoBetukSzama) {
+         // $('button.gameBtnGrad2').addClass("rejtes");  
          setTimeout(function(){
-           alertSK("GRATULÁLÁCIÓ !!!  Ez ügyes játék volt! Ezt érdemes megismételni!","white","limegreen",4);
-           $('button.gameBtn').removeClass("rejtes");
-         },2000);
+           alertSK("GRATULÁLÁCIÓ !!!  Ez ügyes játék volt! Ezt érdemes megismételni!","white","limegreen",3);
+         },1000);
+         setTimeout(function(){
+           $('button.gameBtnGrad1').removeClass("rejtes");
+         },4000);
       }
     }
 
@@ -133,7 +140,9 @@ function alertSK(uzenet="Nincs üzenet!", colorBetu="white", colorHatter="#cc000
           <span onclick=bezarUzenet(this) onmouseover=closeHover(this,"lightgrey") onmouseout=closeHover(this,["${colorHatter}"])
                   style="position:absolute; top:0; right:0; font-size:1.5rem; color:#000; cursor:pointer">&nbsp;&times;&nbsp;</span>
           <br>
+          <br>
           <p style="text-align:center; margin-top: 1rem; line-height:1.5rem;">${uzenet}</p>  
+          <br>       
           <br>       
         </div>
       `    
