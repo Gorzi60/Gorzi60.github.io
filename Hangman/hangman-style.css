@@ -180,8 +180,8 @@ main {
     width: 100px;
     height: 140px;
     position: relative;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }  
 .figure-container {
     fill: transparent;
