@@ -8,7 +8,7 @@
         sorokSzama = kerdesDarabolas(kerdes, rowWidth);        
         let feladatSor = ``;
         for(let ssz=0; ssz < sorokSzama; ssz++){
-            feladatSor += kerdesSorok[ssz].reduce((total,betu,ix) => (total+`<li data-letter=${ssz}${ix} class="taskBox"><p style="margin: .5rem 0 0 0">${betu}</p></li>`),`<ul class="taskLista">`)+`</ul>`;                        
+            feladatSor += kerdesSorok[ssz].reduce((total,betu,ix) => (total+`<li data-letter=${ssz}${ix} class="taskBox"><p>${betu}</p></li>`),`<ul class="taskLista">`)+`</ul>`;                        
         }
         $('button.gameBtnGrad1').addClass("rejtes");
         // $('button.gameBtnGrad2').removeClass("rejtes");  

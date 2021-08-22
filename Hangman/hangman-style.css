@@ -111,12 +111,12 @@ main {
     margin: .1rem;
     color: transparent;
 }
+.taskBox > p {
+   margin: 0.5rem 0 0 0;
+}
 /* a nem kitalálandó betűk (-.,) stílusa */                
 .taskBoxFix {
-    font-size: 1rem;
     font-weight: bold;
-    line-height: 1rem;
-    padding: .2rem;
     background:rgba(195, 113, 113, .5);
     color: black;
     text-align: center;
@@ -180,7 +180,8 @@ main {
     width: 100px;
     height: 140px;
     position: relative;
-    margin-bottom: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }  
 .figure-container {
     fill: transparent;
@@ -207,6 +208,9 @@ main {
     .gameTitle {
         margin: 4rem auto 1rem;
     }
+    .hangman {
+        margin-bottom: 3rem;
+    } 
  }   
  @media (min-width: 400px) and (max-width: 599px) {
     .taskBox {
@@ -238,7 +242,6 @@ main {
         line-height: 1.3rem;
     }
 }
-
  @media (min-width: 768px) {
     .taskBox {
         width: 3.4rem;
